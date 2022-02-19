@@ -5,7 +5,8 @@ import re
 import logging
 import router
 
-from logging import TimedRotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
+from logging.handlers import StreamHandler
 
 
 def main():
@@ -26,7 +27,7 @@ def setup_logging(path):
     fileHandler.setLevel(logging.INFO)
     fileHandler.setFormatter(formatter)
 
-    consoleHandler = logging.StreamHandler()
+    consoleHandler = StreamHandler()
     consoleHandler.setLevel(logging.INFO)
     consoleHandler.setFormatter(formatter)
 
