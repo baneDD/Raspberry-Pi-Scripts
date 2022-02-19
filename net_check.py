@@ -5,6 +5,8 @@ import re
 import logging
 import router
 
+from logging import TimedRotatingFileHandler
+
 
 def main():
     setup_logging("netmon.log")
@@ -17,10 +19,10 @@ def setup_logging(path):
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    fileHandler = logging.TimedRotatingFileHandler(path,
-                                                   when="d",
-                                                   interval=1,
-                                                   backupCount=30)
+    fileHandler = TimedRotatingFileHandler(path,
+                                           when="d",
+                                           interval=1,
+                                           backupCount=30)
     fileHandler.setLevel(logging.INFO)
     fileHandler.setFormatter(formatter)
 
