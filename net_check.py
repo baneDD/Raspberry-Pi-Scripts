@@ -6,23 +6,32 @@ import logging
 import router
 
 
-from logging.handlers import TimedRotatingFileHandler
-
-
 def main():
-    create_timed_rotating_log("netmon.log")
+    setup_logging("netmon.log")
     router.perform_reset()
 
 
-def create_timed_rotating_log(path):
+def setup_logging(path):
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
 
-    handler = TimedRotatingFileHandler(path,
-                                       when="d",
-                                       interval=1,
-                                       backupCount=30)
-    logger.addHandler(handler)
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    fileHandler = logging.TimedRotatingFileHandler(path,
+                                                   when="d",
+                                                   interval=1,
+                                                   backupCount=30)
+    fileHandler.setLevel(logging.INFO)
+    fileHandler.setFormatter(formatter)
+
+    consoleHandler = logging.StreamHandler()
+    consoleHandler.setLevel(logging.INFO)
+    consoleHandler.setFormatter(formatter)
+
+    logger.addHandler(fileHandler)
+    logger.addHandler(consoleHandler)
+
+    logger.info("Logging set up complete")
 
 
 def get_external_ip():
