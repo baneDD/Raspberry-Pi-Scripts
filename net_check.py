@@ -3,10 +3,26 @@ import threading
 import urllib.request
 import re
 import logging
+import router
 
 
-logging.basicConfig(filename='network_monitor.log', level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+from logging.handlers import TimedRotatingFileHandler
+
+
+def main():
+    create_timed_rotating_log("netmon.log")
+    router.perform_reset()
+
+
+def create_timed_rotating_log(path):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    handler = TimedRotatingFileHandler(path,
+                                       when="d",
+                                       interval=1,
+                                       backupCount=30)
+    logger.addHandler(handler)
 
 
 def get_external_ip():
@@ -26,15 +42,3 @@ def check_ping():
         pingstatus = "Network Error"
 
     return pingstatus
-
-
-def check_ping_timer():
-    threading.Timer(5.0, check_ping_timer).start()
-    res = check_ping()
-    logging.debug(res)
-
-
-ext_ip = get_external_ip()
-if len(ext_ip):
-    logging.debug("External IP is " + ext_ip[0])
-check_ping_timer()
