@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def perform_reset(logger):
+def perform_reset():
     GPIO.setmode(GPIO.BCM)
 
     GPIO.setup(22, GPIO.OUT)

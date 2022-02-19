@@ -42,3 +42,6 @@ def check_ping():
         pingstatus = "Network Error"
 
     return pingstatus
+
+
+main()
