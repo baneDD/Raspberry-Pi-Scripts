@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('network_monitor.router')
 
 
 def perform_reset():
